@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <div th:replace="components/menu.html"></div>
+    <div class="container text">
+        <div th:replace="components/header.html :: header('My orders')"></div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+            <div id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a th:classappend="${status} == null ? 'active' : ''" class="nav-item nav-link" href="/products">Show all</a>
+                    <a th:classappend="${status} == 'waiting' ? 'active' : ''" class="nav-item nav-link" href="/products/category/waiting">Waiting for delivery</a>
+                    <a th:classappend="${status} == 'approved' ? 'active' : ''" class="nav-item nav-link" href="/products/category/approved">Approved</a>
+                    <a th:classappend="${status} == 'delivered' ? 'active' : ''" class="nav-item nav-link" href="/products/category/delivered">Delivered</a>
+                </div>
+            </div>
+        </nav>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div th:each="order : ${orderList}" class="col">
+                <div class="card" style="width: 18rem;">
+                    <img th:src="${order.urlImage}" th:alt="${order.name}" class="card-img-top">
+                    <div class="card-body">
+
+                        <th:block th:switch="${order.status.name()}">
+                            <span th:case="'WAITING'" class="badge text-bg-warning mb-1">Waiting</span>
+                            <span th:case="'APPROVED'" class="badge text-bg-info mb-1">Approved</span>
+                            <span th:case="'DELIVERED'" class="badge text-bg-success mb-1">Delivered</span>
+                        </th:block>
+
+                        <h5 class="card-title" th:text="${order.name}"></h5>
+                        <p class="card-text" th:text="${order.description}"></p>
+                        <p class="card-text"><b>Cost: </b> [[${ #numbers.formatCurrency(order.cost) }]]</p>
+                        <p class="card-text"><b>Date Line: </b>[[${ #temporals.format(order.dateLine, 'dd-MMM-yyyy') }]]</p>
+                        <label for="product" class="form-label">More info</label>
+                        <input type="text" class="form-control mb-3" th:value="${order.urlProduct}" id="product">
+                        <a th:href="'/products/' + ${order.id}" class="btn btn-primary">View details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</body>
+</html>
