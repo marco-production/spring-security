@@ -15,22 +15,17 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/products")
-public class ProductController {
+@RequestMapping("/guest")
+public class GuestController {
 
     @Autowired
     ProductRepository productRepository;
 
     @GetMapping
     public String index(Model model, Principal principal){
-        List<Product> productList = productRepository.findAllByUser(principal.getName());
+        List<Product> productList = productRepository.findAll();
         model.addAttribute("orderList", productList);
         return "views/index";
-    }
-
-    @GetMapping("/category")
-    public String productByStatus(){
-        return "views/categories";
     }
 
     @GetMapping("/category/{status}")
@@ -54,6 +49,6 @@ public class ProductController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String onError() {
-        return "redirect:/products";
+        return "redirect:/guest";
     }
 }

@@ -10,6 +10,11 @@ import java.time.LocalDate;
 @Controller
 public class HomeController {
 
+    @GetMapping("/")
+    public String home(){
+        return "redirect:/login";
+    }
+
     @GetMapping("/about-us")
     public ModelAndView aboutUs(){
         ModelAndView mv = new ModelAndView("views/about");

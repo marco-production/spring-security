@@ -39,11 +39,13 @@ public class WebSecurityConfig {
                 .logoutUrl("/logout")
             );
 
+        //.csrf().build();
+
         return http.build();
     }
 
     // Este es un usuario que se esta alojando en memoria
-    @Bean
+    /*@Bean
     public UserDetailsService userDetailsService() {
         UserDetails user =
                 User.withDefaultPasswordEncoder()
@@ -53,7 +55,7 @@ public class WebSecurityConfig {
                         .build();
 
         return new InMemoryUserDetailsManager(user);
-    }
+    }*/
 
     // Para usuarios alojados en la base de datos
     @Bean
